@@ -1,9 +1,6 @@
 @import "tailwindcss";
+@import '@fontsource/open-sans';
 
-/*@theme {
-    --charcoal: #264653;
+body {
+    font-family: 'Open Sans';
 }
-
-.bg-chacoal {
-    background-color: var(--charcoal);
-}*/

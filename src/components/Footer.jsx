@@ -1,16 +1,31 @@
 import React from 'react'
-import { FaCcPaypal } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
-import { FaReact } from "react-icons/fa";
-import { FaHtml5 } from "react-icons/fa";
-import { FaCss3 } from "react-icons/fa";
-import { FaJs } from "react-icons/fa";
+import { FaCcPaypal, FaGithub, FaReact, FaHtml5, FaCss3, FaJs } from "react-icons/fa";
+
+/**
+ * Componente Footer
+ * 
+ * Este componente representa el pie de página de la aplicación Hermes Running Calculator App.
+ * Contiene información sobre la aplicación, enlaces de soporte y tecnologías utilizadas en su desarrollo.
+ * 
+ * Estructura:
+ * - Sección con el nombre de la aplicación y su descripción.
+ * - Sección para apoyar el proyecto con enlaces a PayPal y GitHub.
+ * - Sección con el nombre del desarrollador y las tecnologías usadas.
+ * - Derechos de autor al final.
+ * 
+ * Tecnologías usadas:
+ * - React
+ * - HTML5
+ * - CSS3
+ * - JavaScript
+ */
 
 export const Footer = () => {
     return (
         <footer className='bg-blue-700 text-white py-16'>
             <div className="md:w-[700px] mx-auto text-center">
                 <div className='md:flex'>
+                    {/* Sección de información de la aplicación */}
                     <div className="mb-10 md:flex-1 font-bold text-lg">
                         <h1>HERMES</h1>
                         <div className='mt-5'>
@@ -18,6 +33,7 @@ export const Footer = () => {
                         </div>
                     </div>
 
+                    {/* Sección de soporte del proyecto */}
                     <div className="mb-10 md:flex-1">
                         <h1 className='font-bold text-lg'>Support this Project</h1>
 
@@ -27,8 +43,10 @@ export const Footer = () => {
                         </ul>
                     </div>
 
+                    {/* Sección de créditos y tecnologías usadas */}
                     <div className="md:flex-1">
-                        <h1 className='font-bold text-lg'>Coded by Aris Rodríguez</h1>
+
+                        <h1 className='font-bold text-lg'>Coded by <a className='transition-all duration-300 hover:text-yellow-400' href="https://www.instagram.com/soyizzat/" target='_blank' rel='noopener noreferrer'>Aris Rodríguez</a></h1>
 
                         <ul className='mt-5 flex gap-4 justify-center items-center'>
                             <li><span title='React' className='inline-flex text-white text-4xl transition-all duration-300 hover:text-yellow-400 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-yellow-400'><FaReact aria-hidden="true" /></span></li>
@@ -39,7 +57,9 @@ export const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="font-bold text-center mt-16 md:mt-0">
+
+            {/* Derechos de autor */}
+            <div className="font-bold text-lg text-center mt-16 md:mt-0">
                 <h1>© runwithizzat. All
                     rights reserved.</h1>
             </div>
