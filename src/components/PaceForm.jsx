@@ -152,7 +152,7 @@ export const PaceForm = ({ onCalculate }) => {
                     />
                     <label htmlFor="restingFreq"
                         className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
-                        Resting Frequency
+                        Resting Heart Rate (RHR)
                     </label>
                 </div>
 
