@@ -31,6 +31,6 @@ Utiliza fórmulas adaptadas del método de entrenamiento por zonas para corredor
 
 ## 📫 Contacto
 
-¿Tienes sugerencias o ideas para mejorar Hermes? Puedes contactarme a través de [mi sitio web](https://a-r.) o desde mis redes sociales enlazadas allí.
+¿Tienes sugerencias o ideas para mejorar Hermes? Puedes contactarme a través de [mi sitio web](https://a-r-dev.vercel.app/) o desde mis redes sociales enlazadas allí.
 
 
