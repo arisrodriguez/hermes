@@ -19,7 +19,7 @@ export const AboutMe = () => {
             {/* Título principal */}
             <h1 className='text-center font-bold text-4xl text-gray-700 '>About Me</h1>
             {/* Subtítulo con el nombre del atleta */}
-            <h2 className='text-center font-bold text-lg text-gray-700 pt-10 pb-5'>Izzat Rodríguez - Middle distance runner</h2>
+            <h2 className='text-center font-bold text-base text-gray-700 pt-10 pb-5'>Izzat Rodríguez - Middle distance runner</h2>
             {/* Descripción del atleta */}
             <p className='text-gray-700 text-base leading-relaxed'>Is a mid-distance runner with impressive prowess in events ranging from <strong>5k - 10k to 21k</strong>. His agility, speed, and endurance have led him to achieve impressive personal bests. With a combination of rigorous training and race strategy, Izzat continues to break personal records.</p>
         </section>
