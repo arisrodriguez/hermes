@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import { calculateTrainingZones } from '../calculations/PaceFormatLogic'
 /**
  * PaceForm Component
  * 
@@ -9,6 +9,7 @@ import { useState } from 'react'
  * @param {Function} onCalculate - Función que recibe las zonas de entrenamiento calculadas y el nombre del usuario.
  */
 
+// eslint-disable-next-line react/prop-types
 export const PaceForm = ({ onCalculate }) => {
     // Estado para almacenar los datos del formulario
     const [formData, setFormData] = useState({
@@ -30,6 +31,7 @@ export const PaceForm = ({ onCalculate }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+
     /**
      * Maneja el envío del formulario, calcula las zonas de entrenamiento y
      * llama a la función `onCalculate` para pasar los resultados al componente padre.
@@ -38,56 +40,16 @@ export const PaceForm = ({ onCalculate }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Convertir los valores ingresados a números
-        const age = Number(formData.age);
-        const restingFreq = Number(formData.restingFreq);
-        const distance = Number(formData.distance);
-        const hours = Number(formData.hours);
-        const minutes = Number(formData.minutes);
-        const seconds = Number(formData.seconds);
+        // Validación básica antes del cálculo
+        if (
+            !formData.age || !formData.restingFreq || !formData.distance ||
+            !formData.hours && !formData.minutes && !formData.seconds
+        ) {
+            alert("Please complete all fields with valid numbers.");
+            return;
+        }
 
-        // Calcular tiempo total en segundos
-        const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
-
-        // Calcular ritmo (pace) en segundos/km y convertir a min/km
-        const paceSeconds = totalSeconds / distance;
-        const paceMin = Math.floor(paceSeconds / 60);
-        const paceSec = Math.round(paceSeconds % 60);
-        const paceFormatted = `${paceMin}:${paceSec < 10 ? '0' : ''}${paceSec} min/km`;
-
-        // Calcular frecuencia cardíaca máxima
-        const maxHR = 220 - age;
-
-        // Calcular frecuencia cardíaca de reserva
-        const HRreserve = maxHR - restingFreq;
-
-        // Definir las zonas de entrenamiento (basadas en porcentaje de la FC)
-        const zones = [50, 60, 70, 80, 90].map((percentage, index) => {
-            // Rango de FC para cada zona
-            const minHR = Math.round(restingFreq + (HRreserve * (percentage / 100)));
-            const maxHR = Math.round(restingFreq + (HRreserve * ((percentage + 10) / 100))); // Usamos un +10% para obtener el rango superior
-
-            // Ajustar el ritmo para cada zona (las zonas más bajas tienen un pace más lento)
-            const paceSecondsMax = paceSeconds * (1 + ((4 - index) * 0.03)); // Más lento (Zona 1)
-            const paceSecondsMin = paceSeconds * (1 + ((5 - index) * 0.03)); // Más rápido (Zona 5)
-
-            // Convertimos a formato min/km
-            const paceMin = Math.floor(paceSecondsMin / 60);
-            const paceSecMin = Math.round(paceSecondsMin % 60);
-            const paceFormattedMin = `${paceMin}:${paceSecMin < 10 ? '0' : ''}${paceSecMin}`;
-
-            const paceMax = Math.floor(paceSecondsMax / 60);
-            const paceSecMax = Math.round(paceSecondsMax % 60);
-            const paceFormattedMax = `${paceMax}:${paceSecMax < 10 ? '0' : ''}${paceSecMax} min/km`;
-
-            return {
-                zone: `Zone ${index + 1}`,
-                hr: `${minHR} - ${maxHR} bpm`, // Rango de FC
-                pace: `${paceFormattedMin} - ${paceFormattedMax}` // Rango de pace
-            };
-        });
-
-        // Pasar los datos calculados al componente padre
+        const { zones } = calculateTrainingZones(formData);
         onCalculate(zones, formData.name);
     };
 
@@ -113,7 +75,8 @@ export const PaceForm = ({ onCalculate }) => {
                     />
                     <label
                         htmlFor="name"
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-sm peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-sm peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10"
+                    >
                         Name
                     </label>
                 </div>
@@ -132,7 +95,8 @@ export const PaceForm = ({ onCalculate }) => {
                         autoComplete="bday-year"
                     />
                     <label htmlFor="age"
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-sm peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-sm peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10"
+                    >
                         Age
                     </label>
                 </div>
@@ -151,13 +115,14 @@ export const PaceForm = ({ onCalculate }) => {
                         autoComplete="off"
                     />
                     <label htmlFor="restingFreq"
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-sm peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-sm peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10"
+                    >
                         Resting Heart Rate (RHR)
                     </label>
                 </div>
 
                 {/* Distance */}
-                <div className="relative mb-4">
+                {/* <div className="relative mb-4">
                     <input
                         type="number"
                         name="distance"
@@ -170,7 +135,33 @@ export const PaceForm = ({ onCalculate }) => {
                         autoComplete="off"
                     />
                     <label htmlFor="distance"
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-sm peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
+                        Distance (km)
+                    </label>
+                </div> */}
+
+                {/* Distance */}
+                <div className="relative mb-4">
+                    <select
+                        name="distance"
+                        id="distance"
+                        value={formData.distance}
+                        onChange={handleChange}
+                        className="peer w-full border border-white text-white bg-blue-700 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all aparreance-none placeholder-transparent"
+                        required
+                        autoComplete="off"
+                    >
+                        <option value="" disabled hidden></option>
+                        <option value="5">5 km</option>
+                        <option value="10">10 km</option>
+                    </select>
+                    <label
+                        htmlFor="distance"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 z-10
+                        peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm
+                        peer-focus:top-0 peer-focus:text-sm peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 
+                        peer-valid:top-0 peer-valid:text-sm peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4"
+                    >
                         Distance (km)
                     </label>
                 </div>
@@ -191,7 +182,11 @@ export const PaceForm = ({ onCalculate }) => {
                             autoComplete="off"
                         />
                         <label htmlFor="hours"
-                            className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-white transition-all duration-300 z-10
+                             peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm 
+                             peer-focus:top-0 peer-focus:text-sm peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-2 
+                             peer-valid:top-0 peer-valid:text-sm peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-2"
+                        >
                             Hours
                         </label>
                     </div>
@@ -210,7 +205,11 @@ export const PaceForm = ({ onCalculate }) => {
                             autoComplete="off"
                         />
                         <label htmlFor="minutes"
-                            className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
+                            className="absolute left-2 top-1/2 -translate-y-1/2 text-white transition-all duration-300 z-10
+                            peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm 
+                            peer-focus:top-0 peer-focus:text-sm peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-2 
+                            peer-valid:top-0 peer-valid:text-sm peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-2"
+                        >
                             Minutes
                         </label>
                     </div>
@@ -229,7 +228,8 @@ export const PaceForm = ({ onCalculate }) => {
                             autoComplete="off"
                         />
                         <label htmlFor="seconds"
-                            className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-4 peer-valid:top-0 peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-4 z-10">
+                            className="absolute left-2 top-1/2 -translate-y-1/2 text-white transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-sm peer-focus:text-white peer-focus:bg-blue-700 peer-focus:px-2 peer-valid:top-0 peer-valid:text-sm peer-valid:text-white peer-valid:bg-blue-700 peer-valid:px-2 z-10"
+                        >
                             Seconds
                         </label>
                     </div>
