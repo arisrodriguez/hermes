@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { Header } from './components/Header'
 import { ContentApp } from './components/ContentApp'
 import { Results } from './components/Results'
@@ -27,7 +27,8 @@ function App() {
     setZones(calculatezones); // Actualiza el estado de las calculadas
     setUserName(name); // Guarda el nombre del usuario
 
-    document.getElementById("results").scrollIntoView({ behavior: 'smooth' }); // Hacer scroll al componente de resultados de forma suave, al elemento con id="results"
+    // Hacer scroll al componente de resultados de forma suave, al elemento con id="results"
+    document.getElementById("results").scrollIntoView({ behavior: 'smooth' });
   };
 
 
