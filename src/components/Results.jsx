@@ -1,4 +1,6 @@
-import React, { forwardRef, useRef } from 'react'
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
+import { forwardRef } from 'react'
 
 /**
  * Componente Results
