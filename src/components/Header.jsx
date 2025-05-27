@@ -1,4 +1,4 @@
-// import { FaRunning } from "react-icons/fa";
+//import { FaRunning } from "react-icons/fa";
 /**
  * Componente Header que representa el encabezado de la aplicación.
  * Contiene el título de la aplicación y un enlace de crédito.
@@ -7,7 +7,7 @@
 export const Header = () => {
     return (
         <header className=' bg-blue-700 text-white flex'>
-            <nav className='mx-auto py-6 md:flex md:w-[700px] text-center content-center justify-center items-center'>
+            <nav className='mx-auto py-6 px-4 md:px-0 flex flex-col md:flex-row md:w-[700px] items-center justify-between text-center md:text-left gap-y-2'>
 
                 {/* Sección izquierda con el título de la aplicación */}
                 <div className='flex-1'>
