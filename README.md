@@ -33,4 +33,11 @@ Utiliza fórmulas adaptadas del método de entrenamiento por zonas para corredor
 
 ¿Tienes sugerencias o ideas para mejorar Hermes? Puedes contactarme a través de [mi sitio web](https://a-r-dev.vercel.app/) o desde mis redes sociales enlazadas allí.
 
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+© 2025 Aristides Rodríguez. Permission is hereby granted, free of charge, to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, subject to the conditions in the MIT License.
+
+
 
